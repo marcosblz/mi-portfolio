@@ -1,39 +1,192 @@
-@import "tailwindcss";
+/* === HomePage Styles === */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+  color: #000;
+  transition: background 0.3s, color 0.3s;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html.dark .main-container {
+  background: linear-gradient(135deg, #1f1f1f 0%, #2b2b2b 100%);
+  color: #fff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.hero-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  gap: 3rem;
+}
+
+.profileContainer {
+  flex: none;
+  width: 480px;
+  height: 686px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.profileContainer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  mix-blend-mode: lighten;
+  transition: background 0.3s;
+}
+
+.divider {
+  width: 1px;
+  height: 60%;
+  background-color: #ccc;
+  transition: background-color 0.3s;
+}
+
+html.dark .divider {
+  background-color: #777;
+}
+
+.textContainer {
+  flex: 1;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: slideIn 1s forwards;
+}
+
+.hero-name {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.hero-role {
+  font-size: 2rem;
+  margin: 0;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+html.dark .hero-role {
+  color: #aaa;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-/* globals.css */
-body {
+html, body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #fafafa;
-  color: #333;
+  overflow-x: hidden;
 }
 
-body.dark {
-  background-color: #1a1a1a;
-  color: #eee;
+/* Contenedor principal del home */
+.homeMain {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #1f1f1f 0%, #2b2b2b 100%);
+  color: #fff;
+}
+
+/* Sección hero: centrado vertical y padding */
+.heroSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem; /* mayor padding para “aire” */
+}
+
+/* Contenido interno: imagen + texto */
+.heroContent {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  gap: 3rem;
+}
+
+/* Imagen con bordes redondeados, sombra, etc. */
+.imageWrapper {
+  flex: none;
+  width: 480px;
+  height: 686px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Línea divisoria */
+.divider {
+  width: 1px;
+  height: 60%;
+  background-color: #777;
+  transition: background-color 0.3s;
+}
+
+/* Bloque de texto */
+.textWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+}
+
+/* Estilos de los headings y el párrafo */
+.heroName {
+  font-size: 3rem;
+  margin: 0;
+}
+.heroRole {
+  font-size: 2rem;
+  margin: 0;
+  margin-top: 0.5rem;
+  color: #aaa;
+}
+.heroDesc {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+/* Animación fadeIn */
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }

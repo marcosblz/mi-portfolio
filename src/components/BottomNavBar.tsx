@@ -34,8 +34,9 @@ const items = [
 
 export default function BottomNavBar() {
   // Tamaño base aumentado en un 10%: de 40px a 44px.
-  const baseSize = 44;
-  const containerHeight = 66; // contenedor de 66px
+  const baseSize = 44;        // Aumentado
+const containerHeight = 60; // Ajustado en consecuencia
+
 
   // Cada botón parte con escala 1 (tamaño base = baseSize) y puede crecer.
   const [scales, setScales] = useState<number[]>(() => items.map(() => 1));
@@ -50,7 +51,6 @@ export default function BottomNavBar() {
   const maxAdd = 1;      // Escala máxima = 1 + maxAdd (en este ejemplo = 2).
 
   // TOOLTIP con retardo de 0,25 s.
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [showTooltipIndex, setShowTooltipIndex] = useState<number | null>(null);
   const tooltipTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -92,19 +92,16 @@ export default function BottomNavBar() {
   // Al salir el ratón, vuelve todo a escala 1 y oculta tooltips.
   function handleMouseLeave() {
     setScales(items.map(() => 1));
-    setHoveredIndex(null);
     setShowTooltipIndex(null);
   }
 
   // Tooltip: espera 0,25 s antes de mostrar.
   function onMouseEnterIcon(i: number) {
-    setHoveredIndex(i);
     tooltipTimer.current = setTimeout(() => {
       setShowTooltipIndex(i);
     }, 250);
   }
   function onMouseLeaveIcon() {
-    setHoveredIndex(null);
     if (tooltipTimer.current) {
       clearTimeout(tooltipTimer.current);
       tooltipTimer.current = null;
@@ -112,14 +109,17 @@ export default function BottomNavBar() {
     setShowTooltipIndex(null);
   }
 
-  // Alterna modo oscuro.
+  // Alterna modo oscuro usando document.documentElement.
   function toggleDarkMode() {
-    setDarkMode(!darkMode);
-    if (!darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return newMode;
+    });
   }
 
   return (
@@ -139,7 +139,7 @@ export default function BottomNavBar() {
         background: "#1a1a1a",
         borderRadius: "20px",
         padding: "0.5rem 1rem",
-        // Simula un borde ultrafino con box-shadow inset.
+        // Simula un borde ultrafino usando box-shadow inset.
         boxShadow: "inset 0 0 0 0.5px #fff, 0 2px 10px rgba(0,0,0,0.3)",
         zIndex: 9999,
         height: `${containerHeight}px`,
@@ -246,7 +246,7 @@ export default function BottomNavBar() {
                     borderRadius: "50%",
                     boxShadow:
                       i === selectedIndex
-                        ? "inset 0 0 0 0.5px #8B4513" // borde café para seleccionado
+                        ? "inset 0 0 0 0.5px #8B4513"
                         : "inset 0 0 0 0.5px #fff",
                     background: "#2a2a2a",
                     display: "flex",
