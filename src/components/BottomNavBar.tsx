@@ -14,12 +14,6 @@ import {
   FaSun,
 } from "react-icons/fa";
 
-/**
- * Ítems del Dock:
- * - 7 botones para pestañas con sus rutas (ajusta los href a tus páginas reales)
- * - 1 separador
- * - 1 botón para cambiar el tema (modo oscuro)
- */
 const items = [
   { key: "home", icon: <FaUser />, label: "Inicio", href: "/" },
   { key: "about", icon: <FaBook />, label: "Sobre mí", href: "/about" },
@@ -33,31 +27,19 @@ const items = [
 ];
 
 export default function BottomNavBar() {
-  // Tamaño base aumentado en un 10%: de 40px a 44px.
-  const baseSize = 44;        // Aumentado
-const containerHeight = 60; // Ajustado en consecuencia
-
-
-  // Cada botón parte con escala 1 (tamaño base = baseSize) y puede crecer.
+  const baseSize = 44;
+  const containerHeight = 60;
   const [scales, setScales] = useState<number[]>(() => items.map(() => 1));
-  // Estado para la pestaña seleccionada.
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [centers, setCenters] = useState<number[]>(() => items.map(() => 0));
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Parámetros para el fish‑eye:
-  const threshold = 120; // A menos de 120px, se incrementa la escala.
-  const maxAdd = 1;      // Escala máxima = 1 + maxAdd (en este ejemplo = 2).
-
-  // TOOLTIP con retardo de 0,25 s.
+  const threshold = 120;
+  const maxAdd = 1;
   const [showTooltipIndex, setShowTooltipIndex] = useState<number | null>(null);
   const tooltipTimer = useRef<NodeJS.Timeout | null>(null);
-
-  // Modo oscuro.
   const [darkMode, setDarkMode] = useState(false);
 
-  // Mide el centro X de cada botón.
   useEffect(() => {
     function measureCenters() {
       if (!containerRef.current) return;
@@ -74,7 +56,6 @@ const containerHeight = 60; // Ajustado en consecuencia
     return () => window.removeEventListener("resize", measureCenters);
   }, []);
 
-  // Calcula la escala según la distancia al ratón (nunca menor que 1).
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
     const mouseX = e.clientX;
     const newScales = centers.map(center => {
@@ -89,13 +70,11 @@ const containerHeight = 60; // Ajustado en consecuencia
     setScales(newScales);
   }
 
-  // Al salir el ratón, vuelve todo a escala 1 y oculta tooltips.
   function handleMouseLeave() {
     setScales(items.map(() => 1));
     setShowTooltipIndex(null);
   }
 
-  // Tooltip: espera 0,25 s antes de mostrar.
   function onMouseEnterIcon(i: number) {
     tooltipTimer.current = setTimeout(() => {
       setShowTooltipIndex(i);
@@ -109,7 +88,6 @@ const containerHeight = 60; // Ajustado en consecuencia
     setShowTooltipIndex(null);
   }
 
-  // Alterna modo oscuro usando document.documentElement.
   function toggleDarkMode() {
     setDarkMode((prev) => {
       const newMode = !prev;
@@ -122,31 +100,33 @@ const containerHeight = 60; // Ajustado en consecuencia
     });
   }
 
+  const navBarStyle: React.CSSProperties = {
+    position: "fixed",
+    bottom: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "inline-flex",
+    whiteSpace: "nowrap",
+    alignItems: "center",
+    gap: "1rem",
+    background: darkMode ? "#1a1a1a" : "#ffffff",
+    borderRadius: "20px",
+    padding: "0.5rem 1rem",
+    boxShadow: darkMode 
+      ? "inset 0 0 0 0.5px #fff, 0 2px 10px rgba(0,0,0,0.3)"
+      : "inset 0 0 0 0.5px #000, 0 2px 10px rgba(0,0,0,0.1)",
+    zIndex: 9999,
+    height: `${containerHeight}px`,
+  };
+
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        position: "fixed",
-        bottom: "1rem",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "inline-flex",
-        whiteSpace: "nowrap",
-        alignItems: "center", // Centra verticalmente los botones.
-        gap: "1rem",
-        background: "#1a1a1a",
-        borderRadius: "20px",
-        padding: "0.5rem 1rem",
-        // Simula un borde ultrafino usando box-shadow inset.
-        boxShadow: "inset 0 0 0 0.5px #fff, 0 2px 10px rgba(0,0,0,0.3)",
-        zIndex: 9999,
-        height: `${containerHeight}px`,
-      }}
+      style={navBarStyle}
     >
       {items.map((item, i) => {
-        // Separador.
         if (item.type === "separator") {
           return (
             <div
@@ -160,15 +140,12 @@ const containerHeight = 60; // Ajustado en consecuencia
             />
           );
         }
-
-        // Wrapper para fijar la altura del botón y alinear su contenido (para que crezca solo hacia arriba).
         const buttonWrapperStyle = {
           height: "40px",
           display: "flex",
           alignItems: "flex-end",
         } as React.CSSProperties;
 
-        // Botón para cambiar el tema (modo oscuro).
         if (item.type === "darkMode") {
           const scale = scales[i];
           const size = baseSize * scale;
@@ -205,7 +182,7 @@ const containerHeight = 60; // Ajustado en consecuencia
                 <div
                   style={{
                     position: "absolute",
-                    bottom: "calc(100% + 4px)", // Aparece solo por encima.
+                    bottom: "calc(100% + 4px)",
                     left: "50%",
                     transform: "translateX(-50%)",
                     background: "rgba(0,0,0,0.8)",
@@ -223,7 +200,6 @@ const containerHeight = 60; // Ajustado en consecuencia
           );
         }
 
-        // Botón normal para las 7 pestañas.
         const scale = scales[i];
         const size = baseSize * scale;
         return (
@@ -247,7 +223,7 @@ const containerHeight = 60; // Ajustado en consecuencia
                     boxShadow:
                       i === selectedIndex
                         ? "inset 0 0 0 0.5px #8B4513"
-                        : "inset 0 0 0 0.5px #fff",
+                        : "inset 0 0 0 0.5px " + (darkMode ? "#fff" : "#000"),
                     background: "#2a2a2a",
                     display: "flex",
                     alignItems: "center",
@@ -265,7 +241,7 @@ const containerHeight = 60; // Ajustado en consecuencia
               <div
                 style={{
                   position: "absolute",
-                  bottom: "calc(100% + 4px)", // Solo por encima.
+                  bottom: "calc(100% + 4px)",
                   left: "50%",
                   transform: "translateX(-50%)",
                   background: "rgba(0,0,0,0.8)",

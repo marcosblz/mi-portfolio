@@ -1,5 +1,137 @@
-/* === HomePage Styles === */
+/* Definición de variables para el fondo y tema */
+:root {
+  --color-bg1: #ffffff;
+  --color-bg2: #f0f0f0;
+  --color1: 18, 113, 255;
+  --color2: 221, 74, 255;
+  --color3: 100, 220, 255;
+  --color4: 200, 50, 50;
+  --color5: 180, 180, 50;
+  --color-interactive: 140, 100, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
+}
 
+html.dark {
+  --color-bg1: #000000;
+  --color-bg2: #2b2b2b;
+}
+
+/* Estilos para el fondo degradado */
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.gradient-bg svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.gradient-bg .gradients-container {
+  filter: url(#goo) blur(40px);
+  width: 100%;
+  height: 100%;
+}
+
+.gradient-bg .gradients-container .g1 {
+  background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: center center;
+  animation: moveVertical 30s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g2 {
+  background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 400px);
+  animation: moveInCircle 20s reverse infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g3 {
+  background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2 + 200px);
+  left: calc(50% - var(--circle-size) / 2 - 500px);
+  transform-origin: calc(50% + 400px);
+  animation: moveInCircle 40s linear infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g4 {
+  background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 200px);
+  animation: moveHorizontal 40s ease infinite;
+  opacity: 0.7;
+}
+
+.gradient-bg .gradients-container .g5 {
+  background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: calc(var(--circle-size) * 2);
+  height: calc(var(--circle-size) * 2);
+  top: calc(50% - var(--circle-size));
+  left: calc(50% - var(--circle-size));
+  transform-origin: calc(50% - 800px) calc(50% + 200px);
+  animation: moveInCircle 20s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .interactive {
+  background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: -50%;
+  opacity: 0.7;
+}
+
+@keyframes moveInCircle {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes moveVertical {
+  0% { transform: translateY(-50%); }
+  50% { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes moveHorizontal {
+  0% { transform: translateX(-50%) translateY(-10%); }
+  50% { transform: translateX(50%) translateY(10%); }
+  100% { transform: translateX(-50%) translateY(-10%); }
+}
+
+/* === HomePage Styles === */
 .main-container {
   min-height: 100vh;
   display: flex;
@@ -14,119 +146,76 @@ html.dark .main-container {
   color: #fff;
 }
 
-.hero-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+/* Variables de color para modo claro */
+:root {
+  --color-bg1: #ffffff;
+  --color-bg2: #f0f0f0;
+  --color1: 18, 113, 255;
+  --color2: 221, 74, 255;
+  --color3: 100, 220, 255;
+  --color4: 200, 50, 50;
+  --color5: 180, 180, 50;
+  --color-interactive: 140, 100, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
 }
 
-.hero-content {
-  display: flex;
-  align-items: center;
-  max-width: 1200px;
-  width: 100%;
-  gap: 3rem;
+/* Variables para modo oscuro */
+html.dark {
+  --color-bg1: #000000;
+  --color-bg2: #2b2b2b;
 }
 
-.profileContainer {
-  flex: none;
-  width: 480px;
-  height: 686px;
-  position: relative;
-  border-radius: 8px;
+/* Fondo degradado con SVG */
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.profileContainer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-  mix-blend-mode: lighten;
-  transition: background 0.3s;
+.gradient-bg svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
 }
 
-.divider {
-  width: 1px;
-  height: 60%;
-  background-color: #ccc;
-  transition: background-color 0.3s;
+.gradient-bg .gradients-container {
+  filter: url(#goo) blur(40px);
+  width: 100%;
+  height: 100%;
 }
 
-html.dark .divider {
-  background-color: #777;
-}
-
-.textContainer {
-  flex: 1;
-  opacity: 0;
-  transform: translateX(-50px);
-  animation: slideIn 1s forwards;
-}
-
-.hero-name {
-  font-size: 3rem;
-  margin: 0;
-}
-
-.hero-role {
-  font-size: 2rem;
-  margin: 0;
-  margin-top: 0.5rem;
-  color: #555;
-}
-
-html.dark .hero-role {
-  color: #aaa;
-}
-
-.hero-description {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  max-width: 600px;
-  margin-top: 1rem;
-}
-
-@keyframes slideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-/* Contenedor principal del home */
+/* Estilos para el contenedor principal */
 .homeMain {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(135deg, var(--color-bg1) 0%, var(--color-bg2) 100%);
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+}
+
+html.dark .homeMain {
   background: linear-gradient(135deg, #1f1f1f 0%, #2b2b2b 100%);
   color: #fff;
 }
 
-/* Sección hero: centrado vertical y padding */
+/* Layout de la sección hero */
 .heroSection {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem; /* mayor padding para “aire” */
+  padding: 4rem;
 }
 
-/* Contenido interno: imagen + texto */
 .heroContent {
   display: flex;
   align-items: center;
@@ -135,7 +224,7 @@ html, body {
   gap: 3rem;
 }
 
-/* Imagen con bordes redondeados, sombra, etc. */
+/* Estilos para la imagen */
 .imageWrapper {
   flex: none;
   width: 480px;
@@ -150,8 +239,12 @@ html, body {
 .divider {
   width: 1px;
   height: 60%;
-  background-color: #777;
+  background-color: #ccc;
   transition: background-color 0.3s;
+}
+
+html.dark .divider {
+  background-color: #777;
 }
 
 /* Bloque de texto */
@@ -163,21 +256,269 @@ html, body {
   max-width: 600px;
 }
 
-/* Estilos de los headings y el párrafo */
+/* Estilos para títulos y párrafo */
 .heroName {
   font-size: 3rem;
   margin: 0;
+  color: #000;
 }
+
 .heroRole {
   font-size: 2rem;
   margin: 0;
   margin-top: 0.5rem;
-  color: #aaa;
+  color: #555;
 }
+
 .heroDesc {
   font-size: 1.2rem;
   line-height: 1.6;
   margin-top: 1rem;
+  color: #333;
+}
+
+/* Ajuste de color en modo oscuro */
+html.dark .heroName,
+html.dark .heroRole,
+html.dark .heroDesc {
+  color: #fff;
+}
+
+/* Animación fadeIn */
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Variables de color para modo claro */
+:root {
+  --color-bg1: #ffffff;
+  --color-bg2: #f0f0f0;
+  --color1: 18, 113, 255;
+  --color2: 221, 74, 255;
+  --color3: 100, 220, 255;
+  --color4: 200, 50, 50;
+  --color5: 180, 180, 50;
+  --color-interactive: 140, 100, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
+}
+
+/* Variables para modo oscuro */
+html.dark {
+  --color-bg1: #000000;
+  --color-bg2: #2b2b2b;
+}
+
+/* Fondo degradado con efecto goo */
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.gradient-bg svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.gradient-bg .gradients-container {
+  filter: url(#goo) blur(40px);
+  width: 100%;
+  height: 100%;
+}
+
+.gradient-bg .gradients-container .g1 {
+  background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: center center;
+  animation: moveVertical 30s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g2 {
+  background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 400px);
+  animation: moveInCircle 20s reverse infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g3 {
+  background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2 + 200px);
+  left: calc(50% - var(--circle-size) / 2 - 500px);
+  transform-origin: calc(50% + 400px);
+  animation: moveInCircle 40s linear infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .g4 {
+  background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 200px);
+  animation: moveHorizontal 40s ease infinite;
+  opacity: 0.7;
+}
+
+.gradient-bg .gradients-container .g5 {
+  background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: calc(var(--circle-size) * 2);
+  height: calc(var(--circle-size) * 2);
+  top: calc(50% - var(--circle-size));
+  left: calc(50% - var(--circle-size));
+  transform-origin: calc(50% - 800px) calc(50% + 200px);
+  animation: moveInCircle 20s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .gradients-container .interactive {
+  background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: -50%;
+  opacity: 0.7;
+}
+
+@keyframes moveInCircle {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes moveVertical {
+  0% { transform: translateY(-50%); }
+  50% { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes moveHorizontal {
+  0% { transform: translateX(-50%) translateY(-10%); }
+  50% { transform: translateX(50%) translateY(10%); }
+  100% { transform: translateX(-50%) translateY(-10%); }
+}
+
+/* Estilos del contenedor principal de la página */
+.homeMain {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+}
+
+html.dark .homeMain {
+  background: transparent;
+  color: #fff;
+}
+
+/* Layout de la sección hero */
+.heroSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.heroContent {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  gap: 3rem;
+}
+
+/* Estilos para la imagen */
+.imageWrapper {
+  flex: none;
+  width: 400px;
+  height: 572px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Línea divisoria */
+.divider {
+  width: 1px;
+  height: 60%;
+  background-color: #ccc;
+  transition: background-color 0.3s;
+}
+
+html.dark .divider {
+  background-color: #777;
+}
+
+/* Bloque de texto */
+.textWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+}
+
+/* Estilos para títulos y párrafo */
+.heroName {
+  font-size: 3rem;
+  margin: 0;
+  color: #000;
+}
+
+.heroRole {
+  font-size: 2rem;
+  margin: 0;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+.heroDesc {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  color: #333;
+}
+
+/* Ajuste de color en modo oscuro */
+html.dark .heroName,
+html.dark .heroRole,
+html.dark .heroDesc {
+  color: #fff;
 }
 
 /* Animación fadeIn */
