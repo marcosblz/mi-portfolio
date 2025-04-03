@@ -1,12 +1,51 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BottomNavBar from "@/components/BottomNavBar";
 import Image from "next/image";
 
 export default function HomePage() {
+  // Usamos "Programador " como prefijo
+  const fixedPrefix = "Programador ";
+  const roleSuffixes = ["Backend", "DevOps"];
+  // Inicializamos mostrando el primer sufijo completo para evitar reescrituras innecesarias
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [displayedSuffix, setDisplayedSuffix] = useState(roleSuffixes[0]);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   useEffect(() => {
-    // Forzar que no se pueda hacer scroll en todo el documento.
+    const currentSuffix = roleSuffixes[currentRoleIndex];
+    const typingSpeed = isDeleting ? 75 : 150;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // Si ya se mostró el sufijo completo, espera y luego comienza a borrar
+        if (displayedSuffix === currentSuffix) {
+          setTimeout(() => {
+            setIsDeleting(true);
+          }, 1000);
+        } else {
+          // Esto no se ejecuta en el primer ciclo ya que mostramos el sufijo completo
+          setDisplayedSuffix(currentSuffix.substring(0, displayedSuffix.length + 1));
+        }
+      } else {
+        // Borramos letra a letra
+        setDisplayedSuffix((prev) => {
+          const updated = currentSuffix.substring(0, prev.length - 1);
+          if (updated === "") {
+            setIsDeleting(false);
+            setCurrentRoleIndex((prevIndex) => (prevIndex + 1) % roleSuffixes.length);
+          }
+          return updated;
+        });
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [displayedSuffix, isDeleting, currentRoleIndex, roleSuffixes]);
+
+  useEffect(() => {
+    // Deshabilitamos el scroll
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
@@ -14,41 +53,30 @@ export default function HomePage() {
     const gradientsContainer = container?.querySelector<HTMLDivElement>(".gradients-container");
     if (!container || !gradientsContainer) return;
 
-    // Usaremos un margen de 200px para que las pelotas tengan más espacio antes de rebotar
     const margin = 200;
-
-    const containerRect = container.getBoundingClientRect();
-
-    // Selecciona las 5 pelotas (ignorando elementos con clase "interactive")
     const balls = Array.from(gradientsContainer.children).filter(
       (el) => !el.classList.contains("interactive")
     );
 
-    // Genera posiciones iniciales para el centro de cada pelota
     const ballData = balls.map((ball) => {
       const halfWidth = ball.clientWidth / 2;
       const halfHeight = ball.clientHeight / 2;
       const containerRect = container.getBoundingClientRect();
-      // Posición del centro entre halfWidth y (width - halfWidth) y similar para y.
       const x = halfWidth + Math.random() * (containerRect.width - 2 * halfWidth);
       const y = halfHeight + Math.random() * (containerRect.height - 2 * halfHeight);
-      // Velocidad base entre 1200 y 1600 px/seg
       const speed = 50;
       let angle = Math.random() * 2 * Math.PI;
       let vx = speed * Math.cos(angle);
       let vy = speed * Math.sin(angle);
-      // Forzar que |vy| sea al menos el 50% de speed
       if (Math.abs(vy) < speed * 0.5) {
         vy = (vy >= 0 ? 1 : -1) * (speed * 0.5);
         vx = Math.sqrt(speed * speed - vy * vy) * (Math.random() < 0.5 ? -1 : 1);
       }
-      // Multiplicar ambas componentes por 5 (multiplicador razonable para que se vea el movimiento)
       vx *= 5;
       vy *= 5;
-      console.log("Pelota generada: vx =", vx.toFixed(2), "vy =", vy.toFixed(2));
       return {
         element: ball as HTMLElement,
-        x, // posición del centro
+        x,
         y,
         vx,
         vy,
@@ -58,20 +86,16 @@ export default function HomePage() {
     });
 
     let lastTimestamp: number | null = null;
-    let lastLogTime = 0;
     function animate(timestamp: number) {
       if (lastTimestamp === null) lastTimestamp = timestamp;
-      const dt = (timestamp - lastTimestamp) / 1000; // en segundos
+      const dt = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
-
-      // Recalcula el rectángulo del contenedor en cada frame
-      const containerRect = container.getBoundingClientRect();
+      const containerRect = container!.getBoundingClientRect();
 
       ballData.forEach((data) => {
         data.x += data.vx * dt;
         data.y += data.vy * dt;
 
-        // Colisión horizontal: se rebota cuando el borde de la pelota (centro ± halfWidth) toca el contenedor extendido en margin
         if (data.x - data.halfWidth < -margin) {
           data.x = -margin + data.halfWidth;
           data.vx *= -1;
@@ -80,7 +104,6 @@ export default function HomePage() {
           data.x = containerRect.width + margin - data.halfWidth;
           data.vx *= -1;
         }
-        // Colisión vertical: se rebota cuando el borde de la pelota (centro ± halfHeight) toca el contenedor extendido en margin
         if (data.y - data.halfHeight < -margin) {
           data.y = -margin + data.halfHeight;
           data.vy *= -1;
@@ -89,19 +112,8 @@ export default function HomePage() {
           data.y = containerRect.height + margin - data.halfHeight;
           data.vy *= -1;
         }
-
-        // Posiciona la pelota de modo que su centro quede en (data.x, data.y)
         data.element.style.transform = `translate(${data.x - data.halfWidth}px, ${data.y - data.halfHeight}px)`;
       });
-
-      if (timestamp - lastLogTime >= 1000) {
-        console.log(
-          "Posiciones:",
-          ballData.map((d, i) => `Pelota ${i + 1}: (${d.x.toFixed(2)}, ${d.y.toFixed(2)})`)
-        );
-        lastLogTime = timestamp;
-      }
-
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
@@ -121,7 +133,7 @@ export default function HomePage() {
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
-        position: "fixed", // Fija el contenedor a la pantalla
+        position: "fixed",
       }}
     >
       <div className="gradient-bg">
@@ -162,13 +174,20 @@ export default function HomePage() {
             <div className="divider" />
             <div className="textWrapper fadeIn">
               <h1 className="heroName">Marcos</h1>
-              <h2 className="heroRole">Programador Backend</h2>
+              <h2 className="heroRole">
+                {fixedPrefix}
+                <span className="roleSuffix">{displayedSuffix}</span>
+              </h2>
+              <div className="projectPill fadeInLeft">
+                <span className="blinkingDot"></span>
+                Abierto a nuevos proyectos
+              </div>
               <p className="heroDesc">
-                Me apasiona transformar ideas en soluciones robustas y escalables. Con
-                experiencia en arquitecturas de microservicios y API RESTful, me esfuerzo
-                por escribir código limpio y eficiente que impulse la innovación. Siempre
-                estoy aprendiendo y buscando colaborar con equipos visionarios para crear
-                experiencias digitales impactantes.
+                Formado en SMR, DAM y Bootcamp de DevOps. Me apasiona transformar ideas en soluciones
+                robustas y escalables. Con experiencia en arquitecturas de microservicios y API RESTful,
+                me esfuerzo por escribir código limpio y eficiente que impulse la innovación. Siempre estoy
+                aprendiendo y buscando colaborar con equipos visionarios para crear experiencias digitales
+                impactantes.
               </p>
             </div>
           </div>

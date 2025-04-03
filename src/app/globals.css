@@ -9,7 +9,7 @@
   --color4: 210, 80, 240;    /* variante de fucsia */
   --color5: 180, 90, 245;    /* mezcla */
   --color-interactive: 140, 100, 255;
-  --circle-size: 120%;       /* Tamaño base (puedes ajustar según necesites) */
+  --circle-size: 120%;       /* Tamaño base (ajústalo si es necesario) */
   --blending: hard-light;
 }
 
@@ -17,6 +17,11 @@
 html.dark {
   --color-bg1: #000000;
   --color-bg2: #2b2b2b;
+}
+
+/* Fuente base para un estilo moderno */
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Fondo degradado con efecto goo */
@@ -150,11 +155,13 @@ html.dark .divider {
   color: #000;
 }
 
+/* Se reserva mayor espacio para el role */
 .heroRole {
   font-size: 2rem;
   margin: 0;
   margin-top: 0.5rem;
   color: #555;
+  min-height: 3rem;
 }
 
 .heroDesc {
@@ -170,10 +177,65 @@ html.dark .heroDesc {
   color: #fff;
 }
 
+/* Animación de fade-in */
 .fadeIn {
   opacity: 0;
   animation: fadeIn 1s forwards;
 }
 @keyframes fadeIn {
   to { opacity: 1; }
+}
+
+/* Animación de fade-in desde la izquierda */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.fadeInLeft {
+  animation: fadeInLeft 1s forwards;
+}
+
+/* Estilos actualizados para la pildora "Abierto a nuevos proyectos" */
+.projectPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background-color: transparent; /* Fondo interior transparente */
+  border: 2px solid #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 1rem;
+  border-radius: 999px;
+  letter-spacing: 0.05rem;
+  font-family: 'Roboto', sans-serif;
+  /* Opcional: sombra sutil para dar profundidad */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+html.dark .projectPill {
+  border: 2px solid #ccc;
+  color: #fff;
+}
+
+/* Estilos para el punto verde parpadeante */
+.blinkingDot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: #0f0;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  animation: blink 4s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
 }
