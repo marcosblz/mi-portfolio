@@ -14,33 +14,37 @@ export default function HomePage() {
     const gradientsContainer = container?.querySelector<HTMLDivElement>(".gradients-container");
     if (!container || !gradientsContainer) return;
 
+    // Usaremos un margen de 200px para que las pelotas tengan más espacio antes de rebotar
+    const margin = 200;
+
     const containerRect = container.getBoundingClientRect();
 
-    // Selecciona las 5 pelotas (ignorando cualquier elemento con clase "interactive")
+    // Selecciona las 5 pelotas (ignorando elementos con clase "interactive")
     const balls = Array.from(gradientsContainer.children).filter(
       (el) => !el.classList.contains("interactive")
     );
 
-    // Asigna posiciones iniciales para el centro de cada pelota.
+    // Genera posiciones iniciales para el centro de cada pelota
     const ballData = balls.map((ball) => {
       const halfWidth = ball.clientWidth / 2;
       const halfHeight = ball.clientHeight / 2;
       const containerRect = container.getBoundingClientRect();
-      // Genera posición para el centro: entre halfWidth y (container.width - halfWidth)
+      // Posición del centro entre halfWidth y (width - halfWidth) y similar para y.
       const x = halfWidth + Math.random() * (containerRect.width - 2 * halfWidth);
       const y = halfHeight + Math.random() * (containerRect.height - 2 * halfHeight);
-      // Velocidad aleatoria entre 1200 y 1600 px/seg
-      const speed = 1200 + Math.random() * 400;
+      // Velocidad base entre 1200 y 1600 px/seg
+      const speed = 50;
       let angle = Math.random() * 2 * Math.PI;
       let vx = speed * Math.cos(angle);
       let vy = speed * Math.sin(angle);
-      // Forzar que la componente vertical sea al menos el 50% de la velocidad
+      // Forzar que |vy| sea al menos el 50% de speed
       if (Math.abs(vy) < speed * 0.5) {
         vy = (vy >= 0 ? 1 : -1) * (speed * 0.5);
         vx = Math.sqrt(speed * speed - vy * vy) * (Math.random() < 0.5 ? -1 : 1);
       }
-      // Multiplica la componente vertical por 10 para forzar el movimiento vertical
-      vy *= 10;
+      // Multiplicar ambas componentes por 5 (multiplicador razonable para que se vea el movimiento)
+      vx *= 5;
+      vy *= 5;
       console.log("Pelota generada: vx =", vx.toFixed(2), "vy =", vy.toFixed(2));
       return {
         element: ball as HTMLElement,
@@ -67,22 +71,22 @@ export default function HomePage() {
         data.x += data.vx * dt;
         data.y += data.vy * dt;
 
-        // Colisión horizontal: se rebota cuando el borde de la pelota toca el contenedor
-        if (data.x - data.halfWidth < 0) {
-          data.x = data.halfWidth;
+        // Colisión horizontal: se rebota cuando el borde de la pelota (centro ± halfWidth) toca el contenedor extendido en margin
+        if (data.x - data.halfWidth < -margin) {
+          data.x = -margin + data.halfWidth;
           data.vx *= -1;
         }
-        if (data.x + data.halfWidth > containerRect.width) {
-          data.x = containerRect.width - data.halfWidth;
+        if (data.x + data.halfWidth > containerRect.width + margin) {
+          data.x = containerRect.width + margin - data.halfWidth;
           data.vx *= -1;
         }
-        // Colisión vertical: se rebota cuando el borde de la pelota toca el contenedor
-        if (data.y - data.halfHeight < 0) {
-          data.y = data.halfHeight;
+        // Colisión vertical: se rebota cuando el borde de la pelota (centro ± halfHeight) toca el contenedor extendido en margin
+        if (data.y - data.halfHeight < -margin) {
+          data.y = -margin + data.halfHeight;
           data.vy *= -1;
         }
-        if (data.y + data.halfHeight > containerRect.height) {
-          data.y = containerRect.height - data.halfHeight;
+        if (data.y + data.halfHeight > containerRect.height + margin) {
+          data.y = containerRect.height + margin - data.halfHeight;
           data.vy *= -1;
         }
 
@@ -90,7 +94,6 @@ export default function HomePage() {
         data.element.style.transform = `translate(${data.x - data.halfWidth}px, ${data.y - data.halfHeight}px)`;
       });
 
-      // Log de posiciones cada 1 segundo para depuración
       if (timestamp - lastLogTime >= 1000) {
         console.log(
           "Posiciones:",

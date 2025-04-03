@@ -2,14 +2,14 @@
 :root {
   --color-bg1: #ffffff;
   --color-bg2: #f0f0f0;
-  /* Usamos tonos parecidos a azul y fucsia para las 5 pelotas */
+  /* Tonos parecidos a azul/fucsia y sus variantes */
   --color1: 18, 113, 255;    /* azul */
   --color2: 221, 74, 255;    /* fucsia */
   --color3: 30, 100, 240;    /* variante de azul */
   --color4: 210, 80, 240;    /* variante de fucsia */
   --color5: 180, 90, 245;    /* mezcla */
   --color-interactive: 140, 100, 255;
-  --circle-size: 30%;       /* Tamaño base de las pelotas */
+  --circle-size: 120%;       /* Tamaño base (puedes ajustar según necesites) */
   --blending: hard-light;
 }
 
@@ -39,64 +39,52 @@ html.dark {
   height: 0;
 }
 
-/* El contenedor de pelotas se limita al contenedor principal */
-.gradient-bg .gradients-container {
+/* Contenedor de pelotas */
+.gradients-container {
   width: 100%;
   height: 100%;
   position: relative;
-  /* Si prefieres el efecto blur, puedes reactivarlo:
-  filter: url(#goo) blur(40px); */
+  /* filter: url(#goo) blur(40px);  Opcional: activar si se desea efecto blur */
 }
 
-/* Estilos para cada pelota; sus posiciones iniciales se definirán vía JavaScript */
-.gradient-bg .gradients-container .g1,
-.gradient-bg .gradients-container .g2,
-.gradient-bg .gradients-container .g3,
-.gradient-bg .gradients-container .g4,
-.gradient-bg .gradients-container .g5 {
+/* Estilos para cada pelota */
+.gradients-container .g1,
+.gradients-container .g2,
+.gradients-container .g3,
+.gradients-container .g4,
+.gradients-container .g5 {
   position: absolute;
   width: var(--circle-size);
   height: var(--circle-size);
+  border-radius: 50%;
   mix-blend-mode: var(--blending);
-  opacity: 1;
+  opacity: 0.5;
+  background-size: cover;
 }
 
-.gradient-bg .gradients-container .g1 {
+.gradients-container .g1 {
   background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
 }
 
-.gradient-bg .gradients-container .g2 {
+.gradients-container .g2 {
   background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
 }
 
-.gradient-bg .gradients-container .g3 {
+.gradients-container .g3 {
   background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
 }
 
-.gradient-bg .gradients-container .g4 {
+.gradients-container .g4 {
   background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
 }
 
-.gradient-bg .gradients-container .g5 {
-  width: calc(var(--circle-size) * 1.2);
-  height: calc(var(--circle-size) * 1.2);
+.gradients-container .g5 {
+  width: calc(var(--circle-size) * 1.5);
+  height: calc(var(--circle-size) * 1.5);
   background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
 }
 
-/* Capa interactiva adicional (opcional) */
-.gradient-bg .gradients-container .interactive {
-  background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
-  mix-blend-mode: var(--blending);
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 100%;
-  height: 100%;
-  opacity: 0.7;
-}
-
 /* Resto de estilos para layout y home */
-
 .homeMain {
   min-height: 100vh;
   display: flex;
@@ -134,7 +122,7 @@ html.dark .homeMain {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .divider {
@@ -188,103 +176,4 @@ html.dark .heroDesc {
 }
 @keyframes fadeIn {
   to { opacity: 1; }
-}
-
-/* Variables de color y configuración (modo claro) */
-:root {
-  --color-bg1: #ffffff;
-  --color-bg2: #f0f0f0;
-  --color1: 18, 113, 255;    /* azul */
-  --color2: 221, 74, 255;    /* fucsia */
-  --color3: 30, 100, 240;    /* variante de azul */
-  --color4: 210, 80, 240;    /* variante de fucsia */
-  --color5: 180, 90, 245;    /* mezcla */
-  --color-interactive: 140, 100, 255;
-  --circle-size: 60%;       /* Tamaño base aumentado al 60% */
-  --blending: hard-light;
-}
-
-/* Variables para modo oscuro */
-html.dark {
-  --color-bg1: #000000;
-  --color-bg2: #2b2b2b;
-}
-
-/* Fondo degradado con efecto goo */
-.gradient-bg {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  overflow: hidden;
-  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.gradient-bg svg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-}
-
-/* Contenedor de pelotas */
-.gradient-bg .gradients-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  /* Si deseas el efecto blur, puedes reactivarlo:
-  filter: url(#goo) blur(40px); */
-}
-
-/* Estilos para cada pelota; las posiciones iniciales se asignan vía JavaScript */
-.gradient-bg .gradients-container .g1,
-.gradient-bg .gradients-container .g2,
-.gradient-bg .gradients-container .g3,
-.gradient-bg .gradients-container .g4,
-.gradient-bg .gradients-container .g5 {
-  position: absolute;
-  width: var(--circle-size);
-  height: var(--circle-size);
-  mix-blend-mode: var(--blending);
-  opacity: 1;
-}
-
-.gradient-bg .gradients-container .g1 {
-  background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
-}
-
-.gradient-bg .gradients-container .g2 {
-  background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
-}
-
-.gradient-bg .gradients-container .g3 {
-  background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
-}
-
-.gradient-bg .gradients-container .g4 {
-  background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
-}
-
-.gradient-bg .gradients-container .g5 {
-  width: calc(var(--circle-size) * 1.2);
-  height: calc(var(--circle-size) * 1.2);
-  background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
-}
-
-/* Resto del CSS para el layout y la home se mantiene igual */
-
-
-.gradient-bg .gradients-container .g1,
-.gradient-bg .gradients-container .g2,
-.gradient-bg .gradients-container .g3,
-.gradient-bg .gradients-container .g4,
-.gradient-bg .gradients-container .g5 {
-  width: var(--circle-size);
-  aspect-ratio: 1;
-  height: auto; /* se ajusta automáticamente para mantener la relación 1:1 */
-  mix-blend-mode: var(--blending);
-  opacity: 1;
 }
