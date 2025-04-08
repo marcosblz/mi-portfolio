@@ -239,3 +239,158 @@ html.dark .projectPill {
   0%, 50%, 100% { opacity: 1; }
   25%, 75% { opacity: 0; }
 }
+
+:root {
+  --shine-color-light: rgba(255, 255, 255, 0.5); /* Brillo para modo claro */
+  --shine-color-dark: rgba(255, 255, 255, 0.3);  /* Brillo para modo oscuro: menos intenso */
+}
+
+/* Contenedor del título */
+.heroRole {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Texto base que garantiza la legibilidad */
+.baseText {
+  color: #555;
+}
+
+html.dark .baseText {
+  color: #fff;
+}
+
+/* Capa de brillo animado superpuesta, aplicada exclusivamente a la forma de las letras */
+.shineOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent, var(--shine-color-light), transparent);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+html.dark .shineOverlay {
+  background: linear-gradient(120deg, transparent, var(--shine-color-dark), transparent);
+}
+
+/* Animación del gradiente del brillo */
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Estilos para la pildora "Abierto a nuevos proyectos" */
+.projectPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  background-color: #ffffff;       /* Fondo sólido para modo claro */
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 1rem;
+  border-radius: 999px;
+  letter-spacing: 0.03rem;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+html.dark .projectPill {
+  background-color: #333;          /* Fondo oscuro */
+  border: 1px solid #555;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+:root {
+  --shine-color-light: rgba(255, 255, 255, 0.5); /* Brillo para modo claro */
+  --shine-color-dark: rgba(255, 255, 255, 0.3);  /* Brillo para modo oscuro (menos intenso) */
+}
+
+/* Contenedor del título */
+.heroRole {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Texto base: siempre visible y con sutil trazo para ayudar en legibilidad */
+.baseText {
+  color: #555;
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .baseText {
+  color: #fff;
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.2);
+}
+
+/* Capa de brillo animado superpuesta: se limita solo a las letras usando background-clip */
+.shineOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent, var(--shine-color-light), transparent);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 8s linear infinite;
+}
+
+html.dark .shineOverlay {
+  background: linear-gradient(120deg, transparent, var(--shine-color-dark), transparent);
+}
+
+/* Animación del brillo */
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Estilo de la pildora "Abierto a nuevos proyectos" */
+.projectPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;  /* Permite que se ajuste al contenido */
+  background-color: #ffffff;       /* Fondo sólido para modo claro */
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 1rem;
+  border-radius: 999px;
+  letter-spacing: 0.03rem;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: auto;
+}
+
+html.dark .projectPill {
+  background-color: #333;          /* Fondo sólido para modo oscuro */
+  border: 1px solid #555;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
